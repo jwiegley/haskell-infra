@@ -1,0 +1,92 @@
+#+TITLE: mail.haskell.org
+
+* Administrating mail.haskell.org
+:PROPERTIES:
+:session:  mail01
+:END:
+
+This document describes, in literate DevOps style, how to administer the
+machine =mail.haskell.org=, hereafter simply called =mail=.
+
+** Setting up the connection to mail
+
+The commands that follow in this section all assume an =ssh= session has been
+established. This can be done by typing =C-c C-c= in the block that follows
+(assuming you have Org-mode and Org-babel properly setup in your Emacs):
+
+#+begin_src sh :results silent
+ssh -o LocalCommand=bash mail.haskell.org
+#+end_src
+
+Echoing of commands is disabled using =stty=:
+
+#+begin_src sh :results silent
+stty -echo
+#+end_src
+
+Now just a quick command to ensure we're connected and to the right machine:
+
+#+begin_src sh
+hostname
+#+end_src
+
+#+RESULTS:
+: mail.haskell.org
+
+And before anything else, we'll need to setup the Mailman command-line tools
+on the =PATH=, and double check the version to be sure we've done it right:
+
+#+begin_src sh
+export PATH=/usr/lib/mailman/bin:$PATH
+version
+#+end_src
+
+#+RESULTS:
+|                               |
+| Using Mailman version: 2.1.18 |
+
+You may also want to keep a browser tab open to the [[https://www.gnu.org/software/mailman/docs.html][Mailman documentation]] as a
+reference to understanding which commands are available, and what arguments
+they take.
+
+** Unsubscribing a user
+
+By far the most frequent request of an administrator from users is to
+unsubscribe them from a mailing list that they don't know or remember how to
+get off of.
+
+#+begin_src sh :results value drawer
+remove_members listname user@email.com
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:END:
+
+** Subscribing a user
+
+#+begin_src sh :results value drawer
+echo user@email.com | add_members -r - listname
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+Subscribed: user@email.com
+:END:
+
+** Changing a user's e-mail address
+
+#+begin_src sh :results value drawer
+clone_member -n -r user@old.address.com user@new.address.org
+#+end_src
+
+** Finding which lists a user is subscribed to
+
+#+begin_src sh :results value drawer
+find_member user@email.com
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:END:
+
