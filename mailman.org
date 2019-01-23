@@ -56,7 +56,7 @@ unsubscribe them from a mailing list that they don't know or remember how to
 get off of.
 
 #+begin_src sh :results value drawer
-remove_members listname user@email.com
+remove_members haskell-cafe foo@bar
 #+end_src
 
 #+RESULTS:
@@ -83,7 +83,21 @@ clone_member -n -r user@old.address.com user@new.address.org
 ** Finding which lists a user is subscribed to
 
 #+begin_src sh :results value drawer
-find_member user@email.com
+find_member foo@bar
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+:END:
+
+** List outstanding requests
+
+This requires installed a separate script from here:
+
+  http://www.msapiro.net/scripts/list_requests
+
+#+begin_src sh :results value drawer
+list_requests
 #+end_src
 
 #+RESULTS:
